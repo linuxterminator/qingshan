@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.qingshan.repository.TagRepository">
+
+    <select id="selectByName" resultType="com.hu.qingshan.model.DatabaseModel.Tag">
+        select * from tag where tagName = #{tagName}
+    </select>
+
+    <insert id="insert">
+        insert into tag (tagId,tagName) values (#{tag.tagId},#{tag.tagName})
+    </insert>
+
+    <select id="isTagExists" resultType="int">
+        select count(*) from tag where tagName = #{tagName}
+    </select>
+
+    <select id="selectById" resultType="com.hu.qingshan.model.DatabaseModel.Tag">
+        select * from tag where tagId = #{tagId}
+    </select>
+
+</mapper>

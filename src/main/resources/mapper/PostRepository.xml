@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.qingshan.repository.PostRepository">
+
+    <select id="selectAll" resultType="com.hu.qingshan.model.DatabaseModel.Post">
+        select * from post
+    </select>
+
+    <insert id="insert">
+        insert into post (postid,title,content,author,view,collect) values (#{post.postId},#{post.title},#{post.content},#{post.author},#{post.view},#{post.collect})
+    </insert>
+
+</mapper>
