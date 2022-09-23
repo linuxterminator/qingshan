@@ -1,12 +1,10 @@
 package com.hu.qingshan.model.DatabaseModel;
 
-import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
+import com.hu.qingshan.model.DatabaseModel.Base.BaseModel;
 import lombok.Data;
 import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * 1.用户id
@@ -17,7 +15,7 @@ import java.util.Objects;
  * 6.用户创建时间
  */
 @Data
-public class User extends BaseModel{
+public class User extends BaseModel {
 
     private String userId;
     private String username;
@@ -29,7 +27,7 @@ public class User extends BaseModel{
     public User initAttribute(){
         this.userId = GetNanoid();
         this.status = "normal";
-        this.icon = "https://qingshanblog.oss-cn-hangzhou.aliyuncs.com/pic_quark_1585238620674.jpg";
+        this.icon = "https://qingshanblog.oss-cn-hangzhou.aliyuncs.com/avatar14.png";
         return this;
     }
 

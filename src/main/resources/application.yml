@@ -1,0 +1,36 @@
+server:
+  port: 8090
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  datasource:
+    username: root
+    password: huqingshan
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///huqingshan?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+# ???????????
+wx:
+  appid: wx526203c60693fecf
+  secret: 66b89f4d3c0b42b5535badcd9b01118d
+  url: https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
+
+# jwt???accesstoken??????????refreshtoken????
+authenticate:
+  exipre: 30
+  secret: XdPDCQ2m2iRZ29dFSHyU83xOIZ7w31U8CsJZkmqQN9v6KaXXZt
+  refreshExpire: 7
+
+# 阿里云oss
+oss:
+  accessKeyId: LTAI4G8GfDsBsFNcZJHis1EC
+  accessKeySecret: Y1LffPTkFw8nanm4TTJ1G5QYPoMdkO
+  bucketName: qingshanblog
+  endPoint: oss-cn-hangzhou.aliyuncs.com
+  dir: uservideo/

@@ -1,8 +1,8 @@
 package com.hu.qingshan.modules.Account.service;
 
-import com.hu.qingshan.model.ReponseModel.AccountResponse;
-import com.hu.qingshan.model.RequestParam.LoginParam;
-import com.hu.qingshan.model.RequestParam.SignupParam;
+import com.hu.qingshan.model.ReponseViewModel.AccountResponse;
+import com.hu.qingshan.model.RequestParam.Account.LoginParam;
+import com.hu.qingshan.model.RequestParam.Account.SignupParam;
 
 public interface AccountService {
 
@@ -13,5 +13,7 @@ public interface AccountService {
     String accountSignup(SignupParam signupParam);
 
     String refreshAccessToken();
+
+    void accoundLogout(String userId);
 
 }

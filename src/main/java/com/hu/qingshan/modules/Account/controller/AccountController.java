@@ -1,8 +1,8 @@
 package com.hu.qingshan.modules.Account.controller;
 
-import com.hu.qingshan.model.ReponseModel.AccountResponse;
-import com.hu.qingshan.model.RequestParam.LoginParam;
-import com.hu.qingshan.model.RequestParam.SignupParam;
+import com.hu.qingshan.model.ReponseViewModel.AccountResponse;
+import com.hu.qingshan.model.RequestParam.Account.LoginParam;
+import com.hu.qingshan.model.RequestParam.Account.SignupParam;
 import com.hu.qingshan.modules.Account.service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +37,7 @@ public class AccountController {
         return accountService.refreshAccessToken();
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/accountlogout")
     public String logout(){
         return null;
     }

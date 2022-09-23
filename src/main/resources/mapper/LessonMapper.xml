@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.qingshan.mapper.LessonMapper">
+
+    <insert id="saveLesson" parameterType="com.hu.qingshan.model.DatabaseModel.Lesson">
+        insert into lesson
+        (id,create_date,update_date,chapter_id,course_id,video_url,duration,lesson_name,lesson_index)
+        values
+            (#{lesson.id},#{lesson.createDate},#{lesson.updateDate},#{lesson.chapterId},#{lesson.courseId},#{lesson.videoUrl},#{lesson.duration},#{lesson.lessonName},#{lesson.lessonIndex})
+    </insert>
+
+</mapper>

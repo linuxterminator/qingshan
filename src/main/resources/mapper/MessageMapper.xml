@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.qingshan.mapper.MessageMapper">
+    
+    <resultMap id="commentMap" type="com.hu.qingshan.model.DatabaseModel.Comment">
+        <id column="comment_id" property="commentId"></id>
+        <result column="create_date" property="createDate"></result>
+        <result column="post_id" property="postId"></result>
+        <result column="father_id" property="fatherId"></result>
+        <result column="content" property="content"></result>
+        <result column="good" property="good"></result>
+        <result column="replay_id" property="replayId"></result>
+        <result column="replay_to" property="acceptId"></result>
+    </resultMap>
+
+    <select id="findCommentsByPostId" resultMap="commentMap">
+        select * from comment
+                 where post_id = #{postId}
+    </select>
+
+    <select id="findAllSubCommentByFatherId" resultMap="commentMap">
+        select * from comment
+                 where father_id = #{fatherId}
+    </select>
+
+    <insert id="insertComment" parameterType="com.hu.qingshan.model.DatabaseModel.Comment">
+        insert into comment
+            (comment_id,create_date,father_id,post_id,replay_id,replay_to,content,good)
+        values
+            (#{comment.commentId},#{comment.createDate},#{comment.fatherId},#{comment.postId},#{comment.replayId},#{comment.acceptId},#{comment.content},#{comment.good})
+    </insert>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.qingshan.mapper.TokenMapper">
+
+    <insert id="insert">
+        insert into refreshToken (refreshtoken,expireDate,userId) values (#{refreshToken.refreshToken},#{refreshToken.expireDate},#{refreshToken.userId})
+    </insert>
+
+    <select id="selectByUserId" resultType="com.hu.qingshan.model.DatabaseModel.RefreshToken">
+        select * from refreshToken where userId = #{userId}
+    </select>
+
+    <delete id="deleteByUserId">
+        delete from refreshToken where userId = #{userId}
+    </delete>
+
+    <select id="selectByToken" resultType="com.hu.qingshan.model.DatabaseModel.RefreshToken">
+        select * from refreshToken where refreshtoken = #{refreshtoken}
+    </select>
+
+</mapper>

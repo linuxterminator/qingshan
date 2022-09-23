@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.qingshan.mapper.CourseMapper">
+
+    <insert id="saveCourse" parameterType="com.hu.qingshan.model.DatabaseModel.Course">
+        insert into course
+            (id,create_date,update_date,course_name,course_desc,course_cover,course_duration)
+        values
+            (#{course.id},#{course.createDate},#{course.updateDate},#{course.courseName},#{course.courseDesc},#{course.courseCover},#{course.courseDuration})
+    </insert>
+
+    <insert id="saveChapter" parameterType="com.hu.qingshan.model.DatabaseModel.Chapter">
+        insert into chapter
+            (id,create_date,update_date,course_id,chapter_name,chapter_desc,chapter_index)
+        values
+            (#{chapter.id},#{chapter.createDate},#{chapter.updateDate},#{chapter.courseId},#{chapter.chapterName},#{chapter.chapterDesc},#{chapter.chapterIndex})
+    </insert>
+
+</mapper>

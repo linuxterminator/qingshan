@@ -8,6 +8,8 @@ public interface TokenService {
 
     Integer delete(String token);
 
-    RefreshToken isExistsOrExpire(String token);
+    String isExistsOrExpire(String token);
+
+    void isArreadyLoginOrExpire(String userId);
 
 }

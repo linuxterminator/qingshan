@@ -8,9 +8,4 @@ public interface TagService {
 
     String insert(TagParam tagParam);
 
-    Tag selectByName(String name);
-
-    Tag selectById(String id);
-
-    Boolean isTagExists(String name);
 }

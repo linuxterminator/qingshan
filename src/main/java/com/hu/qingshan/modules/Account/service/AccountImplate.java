@@ -1,32 +1,36 @@
 package com.hu.qingshan.modules.Account.service;
 
-import com.hu.qingshan.core.JwtUntil.Token;
+import com.hu.qingshan.core.ExceptionAndEnums.AccountExceptionEnums;
+import com.hu.qingshan.core.Untils.Token;
 import com.hu.qingshan.core.convert.ModelConvert;
 import com.hu.qingshan.model.DatabaseModel.RefreshToken;
 import com.hu.qingshan.model.DatabaseModel.User;
-import com.hu.qingshan.model.OutsideConfig.WXinfo;
-import com.hu.qingshan.model.ReponseModel.AccountResponse;
-import com.hu.qingshan.model.ReponseModel.WXResponse;
-import com.hu.qingshan.model.RequestParam.LoginParam;
-import com.hu.qingshan.model.RequestParam.SignupParam;
+import com.hu.qingshan.core.ConfigProperties.WXProperties;
+import com.hu.qingshan.model.ReponseViewModel.AccountResponse;
+import com.hu.qingshan.model.ReponseViewModel.WXResponse;
+import com.hu.qingshan.model.RequestParam.Account.LoginParam;
+import com.hu.qingshan.model.RequestParam.Account.SignupParam;
 import com.hu.qingshan.modules.User.service.UserService;
 import com.hu.qingshan.modules.token.TokenService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 @Service
 public class AccountImplate extends ModelConvert implements AccountService {
 
-    private final WXinfo wXinfo;
+    private final WXProperties wXinfo;
     private final RestTemplate restTemplate;
 
     private final UserService userService;
     private final TokenService tokenService;
 
-    public AccountImplate(WXinfo wXinfo, RestTemplate restTemplate,UserService userService,TokenService tokenService){
+    public AccountImplate(WXProperties wXinfo, RestTemplate restTemplate, UserService userService, TokenService tokenService){
         this.wXinfo = wXinfo;
         this.restTemplate = restTemplate;
         this.userService = userService;
@@ -63,16 +67,18 @@ public class AccountImplate extends ModelConvert implements AccountService {
     public AccountResponse accountLogin(LoginParam loginParam) {
 
         if(!userService.isUserExists(loginParam.getUsername())){
-            throw new RuntimeException("用户不存在!");
+            throw AccountExceptionEnums.USERNAME_OR_PASSWORD_VERIFY.getException();
         }
 
         User user = userService.selectByName(loginParam.getUsername());
 
         if(!user.PasswordMatch(loginParam.getPassword())){
-            throw new RuntimeException("用户密码错误!");
+            throw AccountExceptionEnums.USERNAME_OR_PASSWORD_VERIFY.getException();
         }
 
-        return TokenGenerator(user);
+        isAlreadyLoginCheck(user.getUserId());
+
+        return AccountResponseGenerator(user);
 
     }
 
@@ -81,11 +87,26 @@ public class AccountImplate extends ModelConvert implements AccountService {
         tokenService.insert(refreshToken);
     }
 
+    // 是否已经登陆
+    private void isAlreadyLoginCheck(String userId){
+        tokenService.isArreadyLoginOrExpire(userId);
+    }
+
+    // 退出登陆，如果accesstoken没有过期，则把accesstoken加入黑名单
+    @Override
+    public void accoundLogout(String userId) {
+
+        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String accesstoken = httpServletRequest.getHeader("token");
+//        tokenService.delete();
+    }
+
     // 生成token
-    private AccountResponse TokenGenerator(User user){
+    private AccountResponse AccountResponseGenerator(User user){
 
         String accessToken = Token.GETAccessToken(user.getUserId());
-        RefreshToken refreshToken = Token.GETRefreshToken();
+        RefreshToken refreshToken = Token.refreshToken().initExpire();
+        refreshToken.setUserId(user.getUserId());
 
         AccountResponse accountResponse = ConvertToTarget(user, AccountResponse.class);
         accountResponse.setToken(new AccountResponse.Token(accessToken,refreshToken.getRefreshToken()));
@@ -101,7 +122,7 @@ public class AccountImplate extends ModelConvert implements AccountService {
     public String accountSignup(SignupParam signupParam) {
 
         if(userService.isUserExists(signupParam.getUsername())){
-            throw new RuntimeException("用户名已存在!");
+            throw AccountExceptionEnums.USERNAME_ALREADY_EXISTS.getException();
         }
 
         userService.insert(signupParam);
@@ -114,13 +135,13 @@ public class AccountImplate extends ModelConvert implements AccountService {
     @Override
     public String refreshAccessToken() {
 
-        if(tokenService.isExistsOrExpire(null)==null){
-            throw new RuntimeException("登陆状态已过期!");
-        }
+        HttpServletRequest httpServletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-        String newAccessToken = Token.GETAccessToken(null);
+        String refreshtoken = httpServletRequest.getHeader("refreshtoken");
 
-        return null;
+        String userId = tokenService.isExistsOrExpire(refreshtoken);
+
+        return Token.GETAccessToken(userId);
     }
 
 }

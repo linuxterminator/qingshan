@@ -11,9 +11,12 @@ public class RefreshToken {
     private String refreshToken;
     private LocalDateTime expireDate;
 
-    public RefreshToken(){
+    private String userId;
+
+    public RefreshToken initExpire(){
         this.expireDate = LocalDateTime.now().plusDays(10);
         this.refreshToken = UUID.randomUUID().toString();
+        return this;
     }
 
 }

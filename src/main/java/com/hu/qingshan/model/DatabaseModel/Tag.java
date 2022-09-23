@@ -1,5 +1,6 @@
 package com.hu.qingshan.model.DatabaseModel;
 
+import com.hu.qingshan.model.DatabaseModel.Base.BaseModel;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * 3.标签类型（用户创建的标签和系统标签）
  */
 @Data
-public class Tag extends BaseModel{
+public class Tag extends BaseModel {
 
     private String tagId;
     private String tagName;
