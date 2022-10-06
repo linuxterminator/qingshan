@@ -1,0 +1,10 @@
+### 请求课程
+
+GET http://{{baseurl}}/course
+Accept: application/json
+
+### 请求详细课程
+GET http://{{baseurl}}/coursedetial
+Accept: application/json
+
+### 添加课程

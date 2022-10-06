@@ -11,8 +11,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * oss工具
@@ -21,21 +19,21 @@ import java.util.List;
 public class OssUntil {
 
     private final OssProperties ossProperties;
-    private final OSS ossClient;
 
     public OssUntil(OssProperties ossProperties){
-        this.ossClient = new OSSClientBuilder()
-                        .build(ossProperties.getEndPoint(),ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
         this.ossProperties = ossProperties;
     }
 
     /**
-     * 头像上传
+     * 文件上传
+     * 视频文件，图像文件等
      */
-    public String iconUpLoad(MultipartFile iconFile){
+    public String fileUpLoad(MultipartFile iconFile){
         String iconName = generatorOssFileName(iconFile.getOriginalFilename());
+        OSS ossClient = new OSSClientBuilder()
+                .build(ossProperties.getEndPoint(),ossProperties.getAccessKeyId(), ossProperties.getAccessKeySecret());
         try{
-            this.ossClient.putObject(ossProperties.getBucketName(),iconName,iconFile.getInputStream());
+            ossClient.putObject(ossProperties.getBucketName(),iconName,iconFile.getInputStream());
         }
         catch(IOException e){
             throw new RuntimeException(e);
@@ -44,31 +42,7 @@ public class OssUntil {
     }
 
     /**
-     * 视频上传
-     */
-    public List<String> videoUpload(List<MultipartFile> videoFile){
-
-        List<String> successUrl = new ArrayList<>();
-
-        videoFile.forEach(file->{
-
-            try {
-                String fileName = generatorOssFileName(file.getOriginalFilename());
-                this.ossClient.putObject(ossProperties.getBucketName(),fileName,file.getInputStream());
-                successUrl.add(getSuccessComponents(fileName).toString());
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        ossClient.shutdown();
-        return successUrl;
-
-    }
-
-    /**
-     * 视频删除
+     * 文件删除
      */
     public void videoDelete(){
 

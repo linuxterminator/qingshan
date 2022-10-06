@@ -6,8 +6,8 @@ import com.hu.qingshan.core.convert.ModelConvert;
 import com.hu.qingshan.model.DatabaseModel.RefreshToken;
 import com.hu.qingshan.model.DatabaseModel.User;
 import com.hu.qingshan.core.ConfigProperties.WXProperties;
-import com.hu.qingshan.model.ReponseViewModel.AccountResponse;
-import com.hu.qingshan.model.ReponseViewModel.WXResponse;
+import com.hu.qingshan.model.DTO.AccountDTO;
+import com.hu.qingshan.model.DTO.WXDTO;
 import com.hu.qingshan.model.RequestParam.Account.LoginParam;
 import com.hu.qingshan.model.RequestParam.Account.SignupParam;
 import com.hu.qingshan.modules.User.service.UserService;
@@ -47,7 +47,7 @@ public class AccountImplate extends ModelConvert implements AccountService {
                 .replace("SECRET", wXinfo.getSecret())
                 .replace("JSCODE",code);
 
-        WXResponse wxResponse = restTemplate.getForObject(convertedURL,WXResponse.class);
+        WXDTO wxResponse = restTemplate.getForObject(convertedURL, WXDTO.class);
 
         if(wxResponse.getErrcode()!=null){
             // todo 抛出请求异常
@@ -64,7 +64,7 @@ public class AccountImplate extends ModelConvert implements AccountService {
     // 账户登陆
     @Transactional
     @Override
-    public AccountResponse accountLogin(LoginParam loginParam) {
+    public AccountDTO accountLogin(LoginParam loginParam) {
 
         if(!userService.isUserExists(loginParam.getUsername())){
             throw AccountExceptionEnums.USERNAME_OR_PASSWORD_VERIFY.getException();
@@ -102,14 +102,14 @@ public class AccountImplate extends ModelConvert implements AccountService {
     }
 
     // 生成token
-    private AccountResponse AccountResponseGenerator(User user){
+    private AccountDTO AccountResponseGenerator(User user){
 
         String accessToken = Token.GETAccessToken(user.getUserId());
         RefreshToken refreshToken = Token.refreshToken().initExpire();
         refreshToken.setUserId(user.getUserId());
 
-        AccountResponse accountResponse = ConvertToTarget(user, AccountResponse.class);
-        accountResponse.setToken(new AccountResponse.Token(accessToken,refreshToken.getRefreshToken()));
+        AccountDTO accountResponse = ConvertToTarget(user, AccountDTO.class);
+        accountResponse.setToken(new AccountDTO.Token(accessToken,refreshToken.getRefreshToken()));
 
         storageRefreshToken(refreshToken);
 

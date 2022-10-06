@@ -1,10 +1,11 @@
 package com.hu.qingshan.modules.course.service;
 
-import com.hu.qingshan.model.DatabaseModel.Course;
+import com.hu.qingshan.model.DTO.BaseChapterDTO;
+import com.hu.qingshan.model.DTO.CourseDetialDTO;
+import com.hu.qingshan.model.DTO.SimpleCourseDTO;
 import com.hu.qingshan.model.RequestParam.ChapterParam;
 import com.hu.qingshan.model.RequestParam.CourseParam;
 import com.hu.qingshan.model.RequestParam.LessonParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,5 +17,11 @@ public interface CourseService {
 
     String addNewLesson(LessonParam lessonParam,String courseId,String chapterId);
 
-    List<Course> listAllCourse();
+    List<SimpleCourseDTO> querySimpleCourse();
+
+    List<CourseDetialDTO> queryDetialCourse();
+
+    List<BaseChapterDTO> queryBaseChapter(String courseId);
+
+    String removeCourse(String courseId);
 }

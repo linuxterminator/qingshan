@@ -1,10 +1,10 @@
-package com.hu.qingshan.model.ReponseViewModel;
+package com.hu.qingshan.model.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class AccountResponse {
+public class AccountDTO {
 
     private String username;
     private String nickname;

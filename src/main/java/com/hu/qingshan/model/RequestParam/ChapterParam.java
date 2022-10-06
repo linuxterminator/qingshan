@@ -12,7 +12,8 @@ public class ChapterParam {
     @NotBlank(message = "章节描述不能为空")
     private String chapterDesc;
     /**
-     * 章节序号（可选）
+     * 章节序号（可选）,必须是数字
      */
+
     private Integer chapterIndex = 9999;
 }

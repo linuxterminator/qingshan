@@ -11,4 +11,8 @@ public interface ChapterMapper {
 
     void saveChapter(@Param("chapter")Chapter chapter);
 
+    Integer isChapterIdExists(@Param("chapterId") String chapterId);
+
+    Integer queryChapterCountByCourseId(@Param("courseId") String courseId);
+
 }

@@ -13,5 +13,6 @@ public class CourseParam {
     // 课程描述
     @NotBlank(message = "课程描述不能为空")
     private String courseDesc;
-
+    // 课程封面
+    private String courseCover;
 }

@@ -1,4 +1,4 @@
-package com.hu.qingshan.core.config;
+package com.hu.qingshan.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

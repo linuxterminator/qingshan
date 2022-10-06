@@ -1,11 +1,18 @@
 server:
   port: 8090
 
+# 输出sql日志
+logging:
+  level:
+    com.hu.qingshan.mapper: DEBUG
+
 spring:
+  #上传文件大小
   servlet:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
+  #mysql数据源
   datasource:
     username: root
     password: huqingshan
@@ -15,13 +22,13 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
 
-# ???????????
+# 微信配置
 wx:
   appid: wx526203c60693fecf
   secret: 66b89f4d3c0b42b5535badcd9b01118d
   url: https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
 
-# jwt???accesstoken??????????refreshtoken????
+# jwt配置
 authenticate:
   exipre: 30
   secret: XdPDCQ2m2iRZ29dFSHyU83xOIZ7w31U8CsJZkmqQN9v6KaXXZt

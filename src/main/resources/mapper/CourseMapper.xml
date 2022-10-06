@@ -18,4 +18,27 @@
             (#{chapter.id},#{chapter.createDate},#{chapter.updateDate},#{chapter.courseId},#{chapter.chapterName},#{chapter.chapterDesc},#{chapter.chapterIndex})
     </insert>
 
+    <select id="queryCourse" resultMap="coursemap">
+        select * from course
+    </select>
+
+    <resultMap id="coursemap" type="com.hu.qingshan.model.DatabaseModel.Course">
+        <id column="id" property="id"></id>
+        <result column="create_date" property="createDate"></result>
+        <result column="update_date" property="updateDate"></result>
+        <result column="course_name" property="courseName"></result>
+        <result column="course_desc" property="courseDesc"></result>
+        <result column="is_del" property="isDel"></result>
+        <result column="course_cover" property="courseCover"></result>
+        <result column="course_duration" property="courseDuration"></result>
+    </resultMap>
+
+    <select id="isCourseIdExists" resultType="int">
+        select count(*) from course where id = #{courseId};
+    </select>
+
+    <update id="deleteById">
+        update course set is_del = 1 where id = #{courseId}
+    </update>
+
 </mapper>

@@ -1,9 +1,9 @@
-package com.hu.qingshan.model.ReponseViewModel;
+package com.hu.qingshan.model.DTO;
 
 import lombok.Data;
 
 @Data
-public class WXResponse {
+public class WXDTO {
 
     private String openid;
     private String session_key;

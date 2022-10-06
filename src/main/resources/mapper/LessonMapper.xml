@@ -6,9 +6,29 @@
 
     <insert id="saveLesson" parameterType="com.hu.qingshan.model.DatabaseModel.Lesson">
         insert into lesson
-        (id,create_date,update_date,chapter_id,course_id,video_url,duration,lesson_name,lesson_index)
+            (id,create_date,update_date,chapter_id,course_id,video_url,duration,lesson_name,lesson_index)
         values
             (#{lesson.id},#{lesson.createDate},#{lesson.updateDate},#{lesson.chapterId},#{lesson.courseId},#{lesson.videoUrl},#{lesson.duration},#{lesson.lessonName},#{lesson.lessonIndex})
     </insert>
+
+    <select id="queryByCourseId" resultMap="lessonMap">
+        select * from lesson where course_id = #{courseId}
+    </select>
+
+    <resultMap id="lessonMap" type="com.hu.qingshan.model.DatabaseModel.Lesson">
+        <id property="id" column="id"></id>
+        <result column="create_date" property="createDate"></result>
+        <result column="update_date" property="updateDate"></result>
+        <result column="chapter_id" property="chapterId"></result>
+        <result column="course_id" property="courseId"></result>
+        <result column="video_url" property="videoUrl"></result>
+        <result column="duration" property="duration"></result>
+        <result column="lesson_name" property="lessonName"></result>
+        <result column="lesson_index" property="lessonIndex"></result>
+    </resultMap>
+
+    <select id="queryByCourseIdAndChapterId" resultMap="lessonMap">
+        select * from lesson where course_id = #{courseId} and chapter_id = #{chapterId}
+    </select>
 
 </mapper>

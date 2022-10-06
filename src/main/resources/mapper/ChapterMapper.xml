@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hu.qingshan.mapper.ChapterMapper">
+
+    <select id="isChapterIdExists" resultType="int">
+        select count(*) from chapter where id = #{chapterId};
+    </select>
+
+    <resultMap id="chapterMap" type="com.hu.qingshan.model.DatabaseModel.Chapter">
+        <id property="id" column="id"></id>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateDate" column="update_date"></result>
+        <result property="courseId" column="course_id"></result>
+        <result property="chapterName" column="chapter_name"></result>
+        <result property="chapterDesc" column="chapter_desc"></result>
+        <result property="chapterIndex" column="chapter_index"></result>
+    </resultMap>
+
+    <select id="queryChaptersByCourseId" resultMap="chapterMap">
+        select * from chapter where course_id = #{courseId}
+    </select>
+
+    <insert id="saveChapter">
+        insert into chapter
+            (id,create_date,update_date,course_id,chapter_name,chapter_desc,chapter_index)
+        values
+            (#{chapter.id},#{chapter.createDate},#{chapter.updateDate},#{chapter.courseId},#{chapter.chapterName},#{chapter.chapterDesc},#{chapter.chapterIndex})
+    </insert>
+
+    <select id="queryChapterCountByCourseId" resultType="int">
+        select count(*) from chapter where course_id = #{courseId}
+    </select>
+
+</mapper>
